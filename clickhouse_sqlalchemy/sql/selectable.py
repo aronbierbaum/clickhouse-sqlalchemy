@@ -70,14 +70,7 @@ class Select(StandardSelect):
 
     def join(self, right, onclause=None, isouter=False, full=False, type=None,
              strictness=None, distribution=None):
-        flags = {
-            'full': full,
-            'type': type,
-            'strictness': strictness,
-            'distribution': distribution
-        }
-        return super().join(right, onclause=onclause, isouter=isouter,
-                            full=flags)
+        return super().join(right, onclause=onclause, isouter=isouter, full=full)
 
 
 select = Select
