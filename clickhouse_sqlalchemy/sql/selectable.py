@@ -1,4 +1,10 @@
+from __future__ import annotations
+
+from typing import Any, Tuple, TYPE_CHECKING
+
+from sqlalchemy.sql import coercions, roles
 from sqlalchemy.sql.base import _generative
+from sqlalchemy.sql.elements import ColumnElement
 from sqlalchemy.sql.selectable import (
     Select as StandardSelect,
 )
@@ -10,6 +16,8 @@ from ..ext.clauses import (
     sample_clause,
 )
 
+if TYPE_CHECKING:
+    from ._typing import _ColumnExpressionArgument
 
 __all__ = ('Select', 'select')
 
@@ -22,6 +30,22 @@ class Select(StandardSelect):
     _sample_clause = None
     _limit_by_clause = None
     _array_join = None
+    _qualify_criteria: Tuple[ColumnElement[Any], ...] = ()
+
+    @_generative
+    def qualify(self, *qualify: _ColumnExpressionArgument[bool]) -> Self:
+        """Return a new :func:`_expression.select` construct with
+        the given expression added to
+        its HAVING clause, joined to the existing clause via AND, if any.
+
+        """
+
+        for criterion in qualify:
+            qualify_criteria = coercions.expect(
+                roles.WhereHavingRole, criterion, apply_propagate_attrs=self
+            )
+            self._qualify_criteria += (qualify_criteria,)
+        return self
 
     @_generative
     def with_cube(self):

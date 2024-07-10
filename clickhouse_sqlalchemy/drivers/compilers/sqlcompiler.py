@@ -12,7 +12,7 @@ from ... import types
 class ClickHouseSQLCompiler(compiler.SQLCompiler):
     CUSTOM_SELECT_ATTRS = [
         '_with_cube', '_with_rollup', '_with_totals', '_final_clause',
-        '_sample_clause', '_limit_by_clause', '_array_join'
+        '_sample_clause', '_limit_by_clause', '_array_join', '_qualify_criteria'
     ]
 
     def visit_select(
@@ -348,6 +348,13 @@ class ClickHouseSQLCompiler(compiler.SQLCompiler):
             )
             if t:
                 text += " \nHAVING " + t
+
+        if hasattr(select, "_qualify_criteria") and select._qualify_criteria:
+            t = self._generate_delimited_and_list(
+                select._qualify_criteria, **kwargs
+            )
+            if t:
+                text += " \nQUALIFY " + t
 
         if select._order_by_clauses:
             text += self.order_by_clause(select, **kwargs)
