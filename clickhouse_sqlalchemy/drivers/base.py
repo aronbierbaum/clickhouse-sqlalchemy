@@ -103,6 +103,8 @@ class ClickHouseDialect(default.DefaultDialect):
     supports_engine_reflection = True
     supports_table_comment_reflection = True
 
+    div_is_floordiv = False
+
     engine_reflection = True  # Disables engine reflection from URL.
 
     max_identifier_length = 127
