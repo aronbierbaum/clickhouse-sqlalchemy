@@ -3,6 +3,13 @@ ClickHouse SQLAlchemy
 
 ClickHouse dialect for SQLAlchemy to `ClickHouse database <https://clickhouse.yandex/>`_.
 
+clickhouse-sqlalchemy lets you work with `ClickHouse <https://clickhouse.com>`_ — the
+open-source column-oriented database designed for high-performance analytics — using the
+familiar `SQLAlchemy <https://www.sqlalchemy.org>`_ ORM and Core APIs. Define tables and
+models, compose queries with ClickHouse-specific extensions (MergeTree engines, ``FINAL``,
+``SAMPLE``, ``LIMIT BY``, TTL, and more), and manage schema migrations with Alembic, all
+without leaving the SQLAlchemy ecosystem.
+
 
 .. image:: https://img.shields.io/pypi/v/clickhouse-sqlalchemy.svg
     :target: https://pypi.org/project/clickhouse-sqlalchemy

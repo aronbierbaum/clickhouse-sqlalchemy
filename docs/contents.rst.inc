@@ -23,6 +23,7 @@ However default driver is still ``http``.
 .. toctree::
    :maxdepth: 2
 
+   overview
    installation
    quickstart
    connection
